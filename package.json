@@ -1,6 +1,6 @@
 {
   "name": "acary-init-nextjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Tool that sets up a Next.js project with a pre-configured folder structure and essential files.",
   "type": "module",
   "bin": {
