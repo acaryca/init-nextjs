@@ -2,6 +2,12 @@
 
 A tool that sets up a Next.js project with a ready-made folder structure and key files.
 
+## Usage
+
+```bash
+npx acary-init-nextjs
+```
+
 ## Features
 
 - Creates a new Next.js project using `create-next-app`
@@ -12,12 +18,6 @@ A tool that sets up a Next.js project with a ready-made folder structure and key
 - Updates the Next.js layout with proper imports
 - Adds a custom favicon
 - Creates a minimal `next.config.mjs`
-
-## Usage
-
-```bash
-npx acary-init-nextjs
-```
 
 ## Contributing
 
