@@ -6,9 +6,15 @@
   "bin": {
     "acary-init-nextjs": "cli.js"
   },
+  "scripts": {
+    "test": "exit 0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/acaryca/init-nextjs.git"
+  },
+  "publishConfig": {
+    "@acaryca:registry": "https://npm.pkg.github.com"
   },
   "keywords": [
     "nextjs",
