@@ -1,0 +1,28 @@
+# ACARY Next.js Initializer
+
+A Tool that sets up a Next.js project with a pre-configured folder structure and essential files.
+
+## Features
+
+- Creates a new Next.js project using `create-next-app`
+- Sets up a consistent directory structure
+- Configures path aliases in `jsconfig.json`
+- Creates an empty `.env` file
+- Moves `globals.css` to the styles directory
+- Updates the Next.js layout with proper imports
+- Adds a custom favicon
+- Creates a minimal `next.config.mjs`
+
+## Usage
+
+```bash
+npx acary-nextjs-init
+```
+
+## Contributing
+
+Feel free to contribute to this project! Don't worry about following strict guidelines or templates. Simply submit your changes and we'll review them. Whether it's a bug fix, feature addition, or documentation improvement, all contributions are welcome.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE.txt](LICENSE.txt) file for details.
