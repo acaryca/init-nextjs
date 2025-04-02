@@ -1,6 +1,6 @@
-# ACARY Next.js Initializer
+# init-nextjs
 
-A Tool that sets up a Next.js project with a pre-configured folder structure and essential files.
+A tool that sets up a Next.js project with a ready-made folder structure and key files.
 
 ## Features
 
