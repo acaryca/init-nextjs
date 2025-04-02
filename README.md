@@ -16,7 +16,7 @@ A Tool that sets up a Next.js project with a pre-configured folder structure and
 ## Usage
 
 ```bash
-npx acary-nextjs-init
+npx acary-init-nextjs
 ```
 
 ## Contributing
