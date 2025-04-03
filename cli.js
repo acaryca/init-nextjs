@@ -15,7 +15,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 // Helper function to log steps
 const logStep = async (stepNumber, message) => {
 	console.log(`\n📋 Step ${stepNumber}: ${message}`);
-	await sleep(400);
+	await sleep(300);
 };
 
 // Helper function to find existing file from possible paths
