@@ -13,8 +13,9 @@ const __dirname = path.dirname(__filename);
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Helper function to log steps
-const logStep = (stepNumber, message) => {
+const logStep = async (stepNumber, message) => {
 	console.log(`\n📋 Step ${stepNumber}: ${message}`);
+	await sleep(1000)
 };
 
 // Helper function to find existing file from possible paths
@@ -28,7 +29,8 @@ async function initProject() {
 		// Step 1: Create the project with create-next-app
 		logStep(1, "Creating the Next.js project");
 		execSync('npx create-next-app@latest ./', { stdio: 'inherit' });
-		await sleep(500);
+
+
 
 		// Step 2: Create required directories
 		logStep(2, "Creating required directories");
@@ -44,7 +46,8 @@ async function initProject() {
 				console.log(`📁 Directory created: ${dir}`);
 			}
 		});
-		await sleep(500);
+
+
 
 		// Step 3: Clean public directory
 		logStep(3, "Cleaning public directory");
@@ -57,16 +60,37 @@ async function initProject() {
 				}
 			});
 		}
-		await sleep(500);
+
+
 
 		// Step 4: Create .env file
 		logStep(4, "Creating .env file");
 		fs.writeFileSync('.env', '');
 		console.log('📝 .env file created');
-		await sleep(500);
 
-		// Step 5: Handle globals.css
-		logStep(5, "Moving and cleaning globals.css");
+
+		// Step 5: Copy dev directory from script location to project
+		logStep(5, "Copying dev directory");
+		const devSourceDir = path.join(__dirname, 'dev');
+		const devDestDir = './dev';
+		
+		if (fs.existsSync(devSourceDir)) {
+			fs.copySync(devSourceDir, devDestDir);
+			console.log('📁 dev directory copied to project');
+		} else {
+			console.log('⚠️ dev directory not found in script location, skipping');
+		}
+
+
+		// Step 6: Create empty Icons.js file in components directory
+		logStep(6, "Creating Icons.js file");
+		fs.writeFileSync('./components/Icons.js', '');
+		console.log('📝 Empty Icons.js file created in components directory');
+
+
+
+		// Step 7: Handle globals.css
+		logStep(7, "Moving and cleaning globals.css");
 		const globalsPath = findExistingFile([
 			'./app/globals.css',
 			'./src/app/globals.css',
@@ -90,10 +114,11 @@ async function initProject() {
 		} else {
 			console.log('⚠️ globals.css not found, skipping move operation');
 		}
-		await sleep(500);
 
-		// Step 6: Update jsconfig.json
-		logStep(6, "Updating jsconfig.json");
+
+
+		// Step 8: Update jsconfig.json
+		logStep(8, "Updating jsconfig.json");
 		const jsConfigPath = './jsconfig.json';
 		const jsConfigContent = JSON.stringify({
 			compilerOptions: {
@@ -105,10 +130,11 @@ async function initProject() {
 
 		fs.writeFileSync(jsConfigPath, jsConfigContent);
 		console.log('⚙️ jsconfig.json updated');
-		await sleep(500);
 
-		// Step 7: Update layout.js
-		logStep(7, "Updating layout.js");
+
+
+		// Step 9: Update layout.js
+		logStep(9, "Updating layout.js");
 		const layoutPath = findExistingFile([
 			'./app/layout.js',
 			'./src/app/layout.js',
@@ -138,10 +164,11 @@ export default function RootLayout({ children }) {
 		} else {
 			console.log('⚠️ layout.js not found, cannot update');
 		}
-		await sleep(500);
 
-		// Step 8: Handle favicon.ico
-		logStep(8, "Managing favicon.ico");
+
+
+		// Step 10: Handle favicon.ico
+		logStep(10, "Managing favicon.ico");
 		const possibleFaviconPaths = [
 			'./app/favicon.ico',
 			'./src/app/favicon.ico',
@@ -165,10 +192,11 @@ export default function RootLayout({ children }) {
 		} else {
 			console.log('⚠️ Custom favicon.ico not found in script directory, skipping');
 		}
-		await sleep(500);
 
-		// Step 9: Create next.config.mjs
-		logStep(9, "Creating next.config.mjs");
+
+
+		// Step 11: Create next.config.mjs
+		logStep(11, "Creating next.config.mjs");
 		const configContent = `/** @type {import('next').NextConfig} */
 const nextConfig = {
 	devIndicators: false
@@ -178,10 +206,11 @@ export default nextConfig;
 	`;
 		fs.writeFileSync('next.config.mjs', configContent);
 		console.log('⚙️ next.config.mjs created');
-		await sleep(500);
 
-		// Step 10: Update page.js
-		logStep(10, "Updating page.js");
+
+
+		// Step 12: Update page.js
+		logStep(12, "Updating page.js");
 		const pagePath = findExistingFile([
 			'./app/page.js',
 			'./src/app/page.js',
@@ -204,10 +233,11 @@ export default page
 		} else {
 			console.log('⚠️ page.js not found, cannot update');
 		}
-		await sleep(500);
 
-		// Step 11: Update README.md with project name
-		logStep(11, "Updating README.md");
+
+
+		// Step 13: Update README.md with project name
+		logStep(13, "Updating README.md");
 		const packageJsonPath = './package.json';
 		if (fs.existsSync(packageJsonPath)) {
 			try {
@@ -221,6 +251,30 @@ export default page
 		} else {
 			console.log('⚠️ package.json not found, cannot update README.md');
 		}
+		
+		
+		// Step 14: Update package.json scripts
+		logStep(14, "Adding make-favicon script to package.json");
+		if (fs.existsSync(packageJsonPath)) {
+			try {
+				const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+				
+				// Add make-favicon script to scripts object
+				if (!packageJson.scripts) {
+					packageJson.scripts = {};
+				}
+				packageJson.scripts["make-favicon"] = "node dev/icons/make-favicon.js";
+				
+				// Write updated package.json
+				fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+				console.log('⚙️ Added make-favicon script to package.json');
+			} catch (error) {
+				console.log('⚠️ Error updating package.json:', error.message);
+			}
+		} else {
+			console.log('⚠️ package.json not found, cannot add make-favicon script');
+		}
+		
 		
 		console.log('\n✅ ACARY Next.js project ready !');
 	} catch (error) {
