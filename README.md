@@ -11,13 +11,19 @@ npx acary-init-nextjs
 ## Features
 
 - Creates a new Next.js project using `create-next-app`
-- Sets up a consistent directory structure
-- Configures path aliases in `jsconfig.json`
+- Sets up a consistent directory structure (styles, components, public/assets)
+- Cleans the public directory
 - Creates an empty `.env` file
-- Moves `globals.css` to the styles directory
+- Copies a dev directory with utilities
+- Creates an empty Icons.js file in components directory  
+- Moves `globals.css` to the styles directory and cleans it (keeping only @import lines)
+- Configures path aliases in `jsconfig.json`
 - Updates the Next.js layout with proper imports
-- Adds a custom favicon
+- Manages and adds a custom favicon
 - Creates a minimal `next.config.mjs`
+- Updates page.js with a minimal component
+- Updates the project README.md with the project name
+- Adds a make-favicon script to package.json
 
 ## Contributing
 
