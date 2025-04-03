@@ -15,7 +15,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 // Helper function to log steps
 const logStep = async (stepNumber, message) => {
 	console.log(`\n📋 Step ${stepNumber}: ${message}`);
-	await sleep(1000)
+	await sleep(400);
 };
 
 // Helper function to find existing file from possible paths
@@ -27,13 +27,13 @@ const findExistingFile = (possiblePaths) => {
 async function initProject() {
 	try {
 		// Step 1: Create the project with create-next-app
-		logStep(1, "Creating the Next.js project");
+		await logStep(1, "Creating the Next.js project");
 		execSync('npx create-next-app@latest ./', { stdio: 'inherit' });
 
 
 
 		// Step 2: Create required directories
-		logStep(2, "Creating required directories");
+		await logStep(2, "Creating required directories");
 		const requiredDirs = [
 			'styles',
 			'components',
@@ -50,7 +50,7 @@ async function initProject() {
 
 
 		// Step 3: Clean public directory
-		logStep(3, "Cleaning public directory");
+		await logStep(3, "Cleaning public directory");
 		const publicPath = './public';
 		if (fs.existsSync(publicPath)) {
 			fs.readdirSync(publicPath).forEach(file => {
@@ -64,13 +64,13 @@ async function initProject() {
 
 
 		// Step 4: Create .env file
-		logStep(4, "Creating .env file");
+		await logStep(4, "Creating .env file");
 		fs.writeFileSync('.env', '');
 		console.log('📝 .env file created');
 
 
 		// Step 5: Copy dev directory from script location to project
-		logStep(5, "Copying dev directory");
+		await logStep(5, "Copying dev directory");
 		const devSourceDir = path.join(__dirname, 'dev');
 		const devDestDir = './dev';
 		
@@ -83,14 +83,14 @@ async function initProject() {
 
 
 		// Step 6: Create empty Icons.js file in components directory
-		logStep(6, "Creating Icons.js file");
+		await logStep(6, "Creating Icons.js file");
 		fs.writeFileSync('./components/Icons.js', '');
 		console.log('📝 Empty Icons.js file created in components directory');
 
 
 
 		// Step 7: Handle globals.css
-		logStep(7, "Moving and cleaning globals.css");
+		await logStep(7, "Moving and cleaning globals.css");
 		const globalsPath = findExistingFile([
 			'./app/globals.css',
 			'./src/app/globals.css',
@@ -118,7 +118,7 @@ async function initProject() {
 
 
 		// Step 8: Update jsconfig.json
-		logStep(8, "Updating jsconfig.json");
+		await logStep(8, "Updating jsconfig.json");
 		const jsConfigPath = './jsconfig.json';
 		const jsConfigContent = JSON.stringify({
 			compilerOptions: {
@@ -134,7 +134,7 @@ async function initProject() {
 
 
 		// Step 9: Update layout.js
-		logStep(9, "Updating layout.js");
+		await logStep(9, "Updating layout.js");
 		const layoutPath = findExistingFile([
 			'./app/layout.js',
 			'./src/app/layout.js',
@@ -168,7 +168,7 @@ export default function RootLayout({ children }) {
 
 
 		// Step 10: Handle favicon.ico
-		logStep(10, "Managing favicon.ico");
+		await logStep(10, "Managing favicon.ico");
 		const possibleFaviconPaths = [
 			'./app/favicon.ico',
 			'./src/app/favicon.ico',
@@ -196,7 +196,7 @@ export default function RootLayout({ children }) {
 
 
 		// Step 11: Create next.config.mjs
-		logStep(11, "Creating next.config.mjs");
+		await logStep(11, "Creating next.config.mjs");
 		const configContent = `/** @type {import('next').NextConfig} */
 const nextConfig = {
 	devIndicators: false
@@ -210,7 +210,7 @@ export default nextConfig;
 
 
 		// Step 12: Update page.js
-		logStep(12, "Updating page.js");
+		await logStep(12, "Updating page.js");
 		const pagePath = findExistingFile([
 			'./app/page.js',
 			'./src/app/page.js',
@@ -237,7 +237,7 @@ export default page
 
 
 		// Step 13: Update README.md with project name
-		logStep(13, "Updating README.md");
+		await logStep(13, "Updating README.md");
 		const packageJsonPath = './package.json';
 		if (fs.existsSync(packageJsonPath)) {
 			try {
@@ -254,7 +254,7 @@ export default page
 		
 		
 		// Step 14: Update package.json scripts
-		logStep(14, "Adding make-favicon script to package.json");
+		await logStep(14, "Adding make-favicon script to package.json");
 		if (fs.existsSync(packageJsonPath)) {
 			try {
 				const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
