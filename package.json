@@ -1,6 +1,6 @@
 {
   "name": "acary-init-nextjs",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A tool that sets up a Next.js project with a ready-made folder structure and key files.",
   "type": "module",
   "bin": {
@@ -18,7 +18,7 @@
     "create-app"
   ],
   "author": "ACARY",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/acaryca/init-nextjs/issues"
   },
