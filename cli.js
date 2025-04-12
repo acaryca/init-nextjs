@@ -90,7 +90,7 @@ async function initProject() {
 
 
 		// Step 7: Handle globals.css
-		await logStep(7, "Moving and cleaning globals.css");
+		await logStep(7, "Moving and updating globals.css");
 		const globalsPath = findExistingFile([
 			'./app/globals.css',
 			'./src/app/globals.css',
@@ -99,20 +99,60 @@ async function initProject() {
 		]);
 
 		if (globalsPath) {
-			// Read the original content
-			const originalContent = fs.readFileSync(globalsPath, 'utf8');
+			// Create a new content with tailwind and theme variables
+			const newContent = `@import "tailwindcss";
+@theme {
+    --color-primary-50: #e8f4ff;
+    --color-primary-100: #d5ebff;
+    --color-primary-200: #b3d8ff;
+    --color-primary-300: #85bcff;
+    --color-primary-400: #5691ff;
+    --color-primary-500: #2f67ff;
+    --color-primary-600: #0c36ff;
+    --color-primary-700: #0a32ff;
+    --color-primary-800: #0629cd;
+    --color-primary-900: #102d9f;
+    --color-primary-950: #0a195c;
+}
+
+body {
+    background-color: #000000;
+}
+
+.container {
+    @apply w-full max-w-[1700px] mx-auto px-8 sm:px-16 lg:px-28 xl:px-32;
+}`;
 			
-			// Keep only the lines starting with @import
-			const importLines = originalContent.split('\n')
-				.filter(line => line.trim().startsWith('@import'))
-				.join('\n');
-			
-			// Create a clean version with only the import lines
+			// Move and update the file
 			fs.moveSync(globalsPath, './styles/globals.css', { overwrite: true });
-			fs.writeFileSync('./styles/globals.css', importLines);
-			console.log('🎨 File globals.css moved to /styles and cleaned (only @import lines kept)');
+			fs.writeFileSync('./styles/globals.css', newContent);
+			console.log('🎨 File globals.css moved to /styles and updated with Tailwind CSS imports, theme variables, and basic styling');
 		} else {
-			console.log('⚠️ globals.css not found, skipping move operation');
+			console.log('⚠️ globals.css not found, creating new one in styles directory');
+			const newContent = `@import "tailwindcss";
+@theme {
+    --color-primary-50: #e8f4ff;
+    --color-primary-100: #d5ebff;
+    --color-primary-200: #b3d8ff;
+    --color-primary-300: #85bcff;
+    --color-primary-400: #5691ff;
+    --color-primary-500: #2f67ff;
+    --color-primary-600: #0c36ff;
+    --color-primary-700: #0a32ff;
+    --color-primary-800: #0629cd;
+    --color-primary-900: #102d9f;
+    --color-primary-950: #0a195c;
+}
+
+body {
+    background-color: #000000;
+}
+
+.container {
+    @apply w-full max-w-[1700px] mx-auto px-8 sm:px-16 lg:px-28 xl:px-32;
+}`;
+			fs.writeFileSync('./styles/globals.css', newContent);
+			console.log('🎨 Created new globals.css in /styles with Tailwind CSS imports, theme variables, and basic styling');
 		}
 
 
@@ -243,7 +283,11 @@ export default page
 			try {
 				const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 				const projectName = packageJson.name || 'Next.js Project';
-				fs.writeFileSync('README.md', `# ${projectName}`);
+				fs.writeFileSync('README.md', `# ${projectName}
+
+A website made with Next.js and Tailwind CSS.
+
+![screenshot](/.github/assets/screenshot.png)`);
 				console.log('📘 README.md updated with project name');
 			} catch (error) {
 				console.log('⚠️ Error reading package.json or updating README.md:', error.message);
@@ -273,6 +317,35 @@ export default page
 			}
 		} else {
 			console.log('⚠️ package.json not found, cannot add make-favicon script');
+		}
+		
+		
+		// Step 15: Copy .github directory
+		await logStep(15, "Copying .github directory");
+		const githubSourceDir = path.join(__dirname, '.github');
+		const githubDestDir = './.github';
+		
+		if (fs.existsSync(githubSourceDir)) {
+			fs.copySync(githubSourceDir, githubDestDir);
+			console.log('📁 .github directory copied to project');
+		} else {
+			console.log('⚠️ .github directory not found in script location, creating empty structure');
+			fs.mkdirpSync('./.github/assets');
+			console.log('📁 Created empty .github/assets directory structure');
+		}
+		
+		
+		// Step 16: Copy components directory 
+		await logStep(16, "Copying components directory");
+		const componentsSourceDir = path.join(__dirname, 'components');
+		const componentsDestDir = './components';
+		
+		if (fs.existsSync(componentsSourceDir)) {
+			// Since components might already exist from Step 2, merge instead of overwrite
+			fs.copySync(componentsSourceDir, componentsDestDir, { overwrite: true });
+			console.log('📁 components directory content copied to project');
+		} else {
+			console.log('⚠️ components directory not found in script location, skipping');
 		}
 		
 		

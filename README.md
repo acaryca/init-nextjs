@@ -16,14 +16,16 @@ npx acary-init-nextjs
 - Creates an empty `.env` file
 - Copies a dev directory with utilities
 - Creates an empty Icons.js file in components directory  
-- Moves `globals.css` to the styles directory and cleans it (keeping only @import lines)
+- Moves `globals.css` to the styles directory and updates it with Tailwind CSS imports, theme variables, and basic styling
 - Configures path aliases in `jsconfig.json`
 - Updates the Next.js layout with proper imports
 - Manages and adds a custom favicon
 - Creates a minimal `next.config.mjs`
 - Updates page.js with a minimal component
-- Updates the project README.md with the project name
+- Updates the project README.md with the project name and standard format
 - Adds a make-favicon script to package.json
+- Copies .github directory with assets for README screenshots
+- Copies reusable components from the source components directory
 
 ## Contributing
 
