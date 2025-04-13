@@ -1,6 +1,6 @@
 # init-nextjs
 
-A tool that sets up a Next.js project with a ready-made folder structure and key files.
+A tool that sets up a Next.js project with a ready-made folder structure and key files used by ACARY.
 
 ## Usage
 
@@ -16,7 +16,7 @@ npx acary-init-nextjs
 - Creates an empty `.env` file
 - Copies a dev directory with utilities
 - Creates an empty Icons.js file in components directory  
-- Moves `globals.css` to the styles directory and updates it with Tailwind CSS imports, theme variables, and basic styling
+- Copies the styles directory with globals.css containing Tailwind CSS imports and theme variables
 - Configures path aliases in `jsconfig.json`
 - Updates the Next.js layout with proper imports
 - Manages and adds a custom favicon
