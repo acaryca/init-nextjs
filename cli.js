@@ -115,8 +115,9 @@ async function initProject() {
     --color-primary-950: #0a195c;
 }
 
-body {
+html, body {
     background-color: #000000;
+    overflow-x: hidden;
 }
 
 .container {
@@ -144,8 +145,9 @@ body {
     --color-primary-950: #0a195c;
 }
 
-body {
+html, body {
     background-color: #000000;
+    overflow-x: hidden;
 }
 
 .container {
