@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@theme {
+    --color-primary-50: #e8f4ff;
+    --color-primary-100: #d5ebff;
+    --color-primary-200: #b3d8ff;
+    --color-primary-300: #85bcff;
+    --color-primary-400: #5691ff;
+    --color-primary-500: #2f67ff;
+    --color-primary-600: #0c36ff;
+    --color-primary-700: #0a32ff;
+    --color-primary-800: #0629cd;
+    --color-primary-900: #102d9f;
+    --color-primary-950: #0a195c;
+}
+
+html, body {
+    background-color: #000000;
+    overflow-x: hidden;
+}
+
+.container {
+    @apply w-full max-w-[1700px] mx-auto px-8 sm:px-16 lg:px-28;
+}

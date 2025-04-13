@@ -89,74 +89,30 @@ async function initProject() {
 
 
 
-		// Step 7: Handle globals.css
-		await logStep(7, "Moving and updating globals.css");
-		const globalsPath = findExistingFile([
+		// Step 7: Copying styles directory with globals.css
+		await logStep(7, "Copying styles directory");
+		
+		// Delete any existing globals.css in app directory
+		const possibleGlobalsCssPaths = [
 			'./app/globals.css',
 			'./src/app/globals.css',
-			'./src/globals.css',
-			'./styles/globals.css',
-		]);
-
-		if (globalsPath) {
-			// Create a new content with tailwind and theme variables
-			const newContent = `@import "tailwindcss";
-@theme {
-    --color-primary-50: #e8f4ff;
-    --color-primary-100: #d5ebff;
-    --color-primary-200: #b3d8ff;
-    --color-primary-300: #85bcff;
-    --color-primary-400: #5691ff;
-    --color-primary-500: #2f67ff;
-    --color-primary-600: #0c36ff;
-    --color-primary-700: #0a32ff;
-    --color-primary-800: #0629cd;
-    --color-primary-900: #102d9f;
-    --color-primary-950: #0a195c;
-}
-
-html, body {
-    background-color: #000000;
-    overflow-x: hidden;
-}
-
-.container {
-    @apply w-full max-w-[1700px] mx-auto px-8 sm:px-16 lg:px-28 xl:px-32;
-}`;
-			
-			// Move and update the file
-			fs.moveSync(globalsPath, './styles/globals.css', { overwrite: true });
-			fs.writeFileSync('./styles/globals.css', newContent);
-			console.log('🎨 File globals.css moved to /styles and updated with Tailwind CSS imports, theme variables, and basic styling');
-		} else {
-			console.log('⚠️ globals.css not found, creating new one in styles directory');
-			const newContent = `@import "tailwindcss";
-@theme {
-    --color-primary-50: #e8f4ff;
-    --color-primary-100: #d5ebff;
-    --color-primary-200: #b3d8ff;
-    --color-primary-300: #85bcff;
-    --color-primary-400: #5691ff;
-    --color-primary-500: #2f67ff;
-    --color-primary-600: #0c36ff;
-    --color-primary-700: #0a32ff;
-    --color-primary-800: #0629cd;
-    --color-primary-900: #102d9f;
-    --color-primary-950: #0a195c;
-}
-
-html, body {
-    background-color: #000000;
-    overflow-x: hidden;
-}
-
-.container {
-    @apply w-full max-w-[1700px] mx-auto px-8 sm:px-16 lg:px-28 xl:px-32;
-}`;
-			fs.writeFileSync('./styles/globals.css', newContent);
-			console.log('🎨 Created new globals.css in /styles with Tailwind CSS imports, theme variables, and basic styling');
+		];
+		
+		possibleGlobalsCssPaths.forEach(p => {
+			if (fs.existsSync(p)) {
+				fs.removeSync(p);
+				console.log(`🗑️ Deleted: ${p}`);
+			}
+		});
+		
+		// Copy styles directory from script location to project
+		const stylesSourceDir = path.join(__dirname, 'styles');
+		const stylesDestDir = './styles';
+		
+		if (fs.existsSync(stylesSourceDir)) {
+			fs.copySync(stylesSourceDir, stylesDestDir, { overwrite: true });
+			console.log('📁 styles directory copied to project');
 		}
-
 
 
 		// Step 8: Update jsconfig.json
