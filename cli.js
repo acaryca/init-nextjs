@@ -57,16 +57,14 @@ async function initProject() {
 			});
 		}
 
-		// Step 4: Create and copy .env file
-		await logStep(4, "Creating .env file");
-		fs.writeFileSync('.env', '');
-		console.log('📝 .env file created');
-		
-		// Copy .env from /src/ if it exists
+		// Step 4: Copy .env file from /src
+		await logStep(4, "Copying .env file from src directory");
 		const srcEnvPath = path.join(__dirname, 'src', '.env');
 		if (fs.existsSync(srcEnvPath)) {
 			fs.copySync(srcEnvPath, './.env');
 			console.log('📝 .env copied from src directory');
+		} else {
+			console.log('⚠️ .env not found in src directory, skipping');
 		}
 
 		// Step 5: Copy dev directory from script location to project

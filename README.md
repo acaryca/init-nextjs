@@ -10,24 +10,30 @@ npx acary-init-nextjs
 
 ## Features
 
-- Creates a new Next.js project using `create-next-app`
-- Sets up a consistent directory structure (styles, components, public/assets)
-- Cleans the public directory
-- Creates an empty `.env` file
-- Copies a dev directory with utilities
-- Creates an empty Icons.js file in components directory  
-- Copies the styles directory with globals.css containing Tailwind CSS imports and theme variables
-- Configures path aliases in `jsconfig.json`
-- Updates the Next.js layout with proper imports
-- Copies the app directory with necessary files
-- Manages and adds a custom favicon
-- Creates a minimal `next.config.mjs`
-- Updates page.js with a minimal component
-- Updates the project README.md with the project name and standard format
-- Adds a make-favicon script to package.json
-- Copies .github directory with assets for README screenshots
-- Copies reusable components from the source components directory
-- Copies middleware.js if it exists in the source directory
+- **Project Setup**: Creates a Next.js project with create-next-app
+- **Directory Structure**: Sets up essential directories (styles, components, public/assets)
+- **Configuration Files**: 
+  - Sets up .env configuration
+  - Configures jsconfig.json for import paths
+  - Sets up next.config.mjs
+  - Configures middleware.js
+- **Development Tools**:
+  - Includes dev directory for development utilities
+  - Sets up make-favicon script
+- **Styling**:
+  - Configures global styles
+  - Sets up Tailwind CSS
+- **Project Structure**:
+  - Configures app directory
+  - Sets up layout.js
+  - Creates page.js
+  - Manages public assets
+- **Components**:
+  - Creates Icons.js
+  - Sets up components directory
+- **Documentation**:
+  - Updates README.md
+  - Includes .github directory for project assets
 
 ## Contributing
 
