@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export function middleware(request) {
     //DEV AUTH - START
-    if (process.env.DEV_AUTH_ENABLED === 'true') {
+    if (process.env.DEV_AUTH_ENABLED === 'true' && process.env.NODE_ENV !== 'development') {
         const authHeader = request.headers.get('authorization');
         if (authHeader) {
             const authValue = authHeader.split(' ')[1];
