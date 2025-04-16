@@ -15,7 +15,7 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 // Helper function to log steps
 const logStep = async (stepNumber, message) => {
 	console.log(`\n📋 Step ${stepNumber}: ${message}`);
-	await sleep(300);
+	await sleep(100);
 };
 
 // Helper function to find existing file from possible paths
@@ -29,8 +29,6 @@ async function initProject() {
 		// Step 1: Create the project with create-next-app
 		await logStep(1, "Creating the Next.js project");
 		execSync('npx create-next-app@latest ./', { stdio: 'inherit' });
-
-
 
 		// Step 2: Create required directories
 		await logStep(2, "Creating required directories");
@@ -47,8 +45,6 @@ async function initProject() {
 			}
 		});
 
-
-
 		// Step 3: Clean public directory
 		await logStep(3, "Cleaning public directory");
 		const publicPath = './public';
@@ -61,17 +57,21 @@ async function initProject() {
 			});
 		}
 
-
-
-		// Step 4: Create .env file
+		// Step 4: Create and copy .env file
 		await logStep(4, "Creating .env file");
 		fs.writeFileSync('.env', '');
 		console.log('📝 .env file created');
-
+		
+		// Copy .env from /src/ if it exists
+		const srcEnvPath = path.join(__dirname, 'src', '.env');
+		if (fs.existsSync(srcEnvPath)) {
+			fs.copySync(srcEnvPath, './.env');
+			console.log('📝 .env copied from src directory');
+		}
 
 		// Step 5: Copy dev directory from script location to project
 		await logStep(5, "Copying dev directory");
-		const devSourceDir = path.join(__dirname, 'dev');
+		const devSourceDir = path.join(__dirname, 'src', 'dev');
 		const devDestDir = './dev';
 		
 		if (fs.existsSync(devSourceDir)) {
@@ -81,13 +81,10 @@ async function initProject() {
 			console.log('⚠️ dev directory not found in script location, skipping');
 		}
 
-
 		// Step 6: Create empty Icons.js file in components directory
 		await logStep(6, "Creating Icons.js file");
 		fs.writeFileSync('./components/Icons.js', '');
 		console.log('📝 Empty Icons.js file created in components directory');
-
-
 
 		// Step 7: Copying styles directory with globals.css
 		await logStep(7, "Copying styles directory");
@@ -106,14 +103,13 @@ async function initProject() {
 		});
 		
 		// Copy styles directory from script location to project
-		const stylesSourceDir = path.join(__dirname, 'styles');
+		const stylesSourceDir = path.join(__dirname, 'src', 'styles');
 		const stylesDestDir = './styles';
 		
 		if (fs.existsSync(stylesSourceDir)) {
 			fs.copySync(stylesSourceDir, stylesDestDir, { overwrite: true });
 			console.log('📁 styles directory copied to project');
 		}
-
 
 		// Step 8: Update jsconfig.json
 		await logStep(8, "Updating jsconfig.json");
@@ -128,8 +124,6 @@ async function initProject() {
 
 		fs.writeFileSync(jsConfigPath, jsConfigContent);
 		console.log('⚙️ jsconfig.json updated');
-
-
 
 		// Step 9: Update layout.js
 		await logStep(9, "Updating layout.js");
@@ -163,35 +157,24 @@ export default function RootLayout({ children }) {
 			console.log('⚠️ layout.js not found, cannot update');
 		}
 
-
-
-		// Step 10: Handle favicon.ico
-		await logStep(10, "Managing favicon.ico");
-		const possibleFaviconPaths = [
-			'./app/favicon.ico',
-			'./src/app/favicon.ico',
-		];
-
-		possibleFaviconPaths.forEach(p => {
-			if (fs.existsSync(p)) {
-				fs.removeSync(p);
-				console.log(`🗑️ favicon.ico deleted: ${p}`);
-			}
-		});
-
-		// Copy custom favicon
-		const faviconSource = path.join(__dirname, 'favicon.ico');
-		const appDir = fs.existsSync('./app') ? './app' : './src/app';
-		const faviconDest = path.join(appDir, 'favicon.ico');
+		// Step 10: Copy app directory
+		await logStep(10, "Copying app directory");
+		const appSourceDir = path.join(__dirname, 'src', 'app');
 		
-		if (fs.existsSync(faviconSource)) {
-			fs.copySync(faviconSource, faviconDest);
-			console.log(`🖼️ New favicon.ico added to ${appDir}`);
-		} else {
-			console.log('⚠️ Custom favicon.ico not found in script directory, skipping');
+		// Determine destination app directory
+		const appDir = './app';
+		
+		// Create app directory if it doesn't exist
+		if (!fs.existsSync(appDir)) {
+			fs.mkdirpSync(appDir);
 		}
-
-
+		
+		if (fs.existsSync(appSourceDir)) {
+			fs.copySync(appSourceDir, appDir, { overwrite: true });
+			console.log('📁 app directory copied to project');
+		} else {
+			console.log('⚠️ app directory not found in script location, skipping');
+		}
 
 		// Step 11: Create next.config.mjs
 		await logStep(11, "Creating next.config.mjs");
@@ -204,8 +187,6 @@ export default nextConfig;
 	`;
 		fs.writeFileSync('next.config.mjs', configContent);
 		console.log('⚙️ next.config.mjs created');
-
-
 
 		// Step 12: Update page.js
 		await logStep(12, "Updating page.js");
@@ -232,8 +213,6 @@ export default page
 			console.log('⚠️ page.js not found, cannot update');
 		}
 
-
-
 		// Step 13: Update README.md with project name
 		await logStep(13, "Updating README.md");
 		const packageJsonPath = './package.json';
@@ -253,7 +232,6 @@ A website made with Next.js and Tailwind CSS.
 		} else {
 			console.log('⚠️ package.json not found, cannot update README.md');
 		}
-		
 		
 		// Step 14: Update package.json scripts
 		await logStep(14, "Adding make-favicon script to package.json");
@@ -277,10 +255,9 @@ A website made with Next.js and Tailwind CSS.
 			console.log('⚠️ package.json not found, cannot add make-favicon script');
 		}
 		
-		
 		// Step 15: Copy .github directory
 		await logStep(15, "Copying .github directory");
-		const githubSourceDir = path.join(__dirname, '.github');
+		const githubSourceDir = path.join(__dirname, 'src', '.github');
 		const githubDestDir = './.github';
 		
 		if (fs.existsSync(githubSourceDir)) {
@@ -292,10 +269,9 @@ A website made with Next.js and Tailwind CSS.
 			console.log('📁 Created empty .github/assets directory structure');
 		}
 		
-		
 		// Step 16: Copy components directory 
 		await logStep(16, "Copying components directory");
-		const componentsSourceDir = path.join(__dirname, 'components');
+		const componentsSourceDir = path.join(__dirname, 'src', 'components');
 		const componentsDestDir = './components';
 		
 		if (fs.existsSync(componentsSourceDir)) {
@@ -305,7 +281,18 @@ A website made with Next.js and Tailwind CSS.
 		} else {
 			console.log('⚠️ components directory not found in script location, skipping');
 		}
+
+		// Step 17: Copy middleware.js if it exists
+		await logStep(17, "Copying middleware.js");
+		const middlewareSourcePath = path.join(__dirname, 'src', 'middleware.js');
+		const middlewareDestPath = './middleware.js';
 		
+		if (fs.existsSync(middlewareSourcePath)) {
+			fs.copySync(middlewareSourcePath, middlewareDestPath);
+			console.log('📝 middleware.js copied to project');
+		} else {
+			console.log('⚠️ middleware.js not found in script location, skipping');
+		}
 		
 		console.log('\n✅ ACARY Next.js project ready !');
 	} catch (error) {

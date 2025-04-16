@@ -19,6 +19,7 @@ npx acary-init-nextjs
 - Copies the styles directory with globals.css containing Tailwind CSS imports and theme variables
 - Configures path aliases in `jsconfig.json`
 - Updates the Next.js layout with proper imports
+- Copies the app directory with necessary files
 - Manages and adds a custom favicon
 - Creates a minimal `next.config.mjs`
 - Updates page.js with a minimal component
@@ -26,6 +27,7 @@ npx acary-init-nextjs
 - Adds a make-favicon script to package.json
 - Copies .github directory with assets for README screenshots
 - Copies reusable components from the source components directory
+- Copies middleware.js if it exists in the source directory
 
 ## Contributing
 
