@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
 export function middleware(request) {
-
     //DEV AUTH - START
     if (process.env.DEV_AUTH_ENABLED === 'true') {
         const authHeader = request.headers.get('authorization');
@@ -12,14 +11,14 @@ export function middleware(request) {
                 return NextResponse.next();
             }
         }
-        const response = new NextResponse('This site is under development. Authentication required.', {
+        return new NextResponse('This site is under development. Authentication required.', {
             status: 401,
             headers: {'WWW-Authenticate': 'Basic realm="Secure Area"'},
         });
     }
     //DEV AUTH - END
 
-  return response;
+    return NextResponse.next();
 }
 
 export const config = {
