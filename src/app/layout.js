@@ -3,7 +3,7 @@ import Script from "next/script";
 import "@styles/globals.css";
 
 export const metadata = {
-	title: "ACARY",
+	title: "",
 	description: "",
 };
 
