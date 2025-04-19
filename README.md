@@ -10,30 +10,15 @@ npx acary-init-nextjs
 
 ## Features
 
-- **Project Setup**: Creates a Next.js project with create-next-app
-- **Directory Structure**: Sets up essential directories (styles, components, public/assets)
-- **Configuration Files**: 
-  - Sets up .env configuration
-  - Configures jsconfig.json for import paths
-  - Sets up next.config.mjs
-  - Configures middleware.js
-- **Development Tools**:
-  - Includes dev directory for development utilities
-  - Sets up make-favicon script
-- **Styling**:
-  - Configures global styles
-  - Sets up Tailwind CSS
-- **Project Structure**:
-  - Configures app directory
-  - Sets up layout.js
-  - Creates page.js
-  - Manages public assets
-- **Components**:
-  - Creates Icons.js
-  - Sets up components directory
-- **Documentation**:
-  - Updates README.md
-  - Includes .github directory for project assets
+- **Project Initialization**: Creates a Next.js project using create-next-app with JavaScript, Tailwind CSS, and App Router
+- **Clean Project Structure**: Removes default app directory for a fresh start
+- **Path Configuration**: Sets up jsconfig.json with path aliases (@/* imports)
+- **Next.js Configuration**: Configures next.config.mjs with optimized settings (disabled dev indicators)
+- **README Setup**: Generates a starter README.md with project name and screenshot placeholder
+- **Development Utilities**: 
+  - Adds make-favicon script to package.json
+  - Includes developer tooling from src/ directory
+- **Project Files**: Copies all necessary folders and files from the template source to the project root
 
 ## Contributing
 
